@@ -149,18 +149,3 @@ formElement.addEventListener('submit', event => {
 // };
 
 // formElement.addEventListener('submit', wordLength);
-
-// BUCLE WHILE
-// MIENTRAS condición -> ejecuta
-
-// 4
-
-// let secretNumber = 0;
-
-// while (secretNumber !== 4) {
-//   const randomNumber = Math.floor(Math.random() * 10);
-//   secretNumber = randomNumber;
-//   console.log(secretNumber);
-// }
-
-// Crea una función que rellene un array con 15 números del 1 al 20 que no se repitan
