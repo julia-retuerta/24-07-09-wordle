@@ -10,6 +10,7 @@ const SOLUTION_WORDS = ['pan', 'buzo', 'hielo', 'bosque'];
 const NUMBER_OF_TRIES = 5;
 
 let secretWord = '';
+let currentRow = 0;
 
 const chooseSecretWord = () => {
   const randomNumber = Math.floor(Math.random() * SOLUTION_WORDS.length);
@@ -25,7 +26,7 @@ const createGameBoard = () => {
 
     for (let j = 0; j < secretWord.length; j++) {
       const newLetterContainer = document.createElement('span');
-      newLetterContainer.classList.add('letter');
+      newLetterContainer.classList.add('letter-box');
       newRow.append(newLetterContainer);
     }
     fragment.append(newRow);
@@ -39,24 +40,62 @@ const startGame = () => {
   createGameBoard();
 };
 
-startGame();
-
-const writeWordInBoxes = event => {
-  event.preventDefault();
-  const everyRow = document.querySelectorAll('.letters-container__row');
-
-  for (let i = 0; i < everyRow.length; i++) {
-    if (!everyRow[i].classList.contains('filled')) {
-      for (let j = 0; j < inputTypeSolutionElement.value.length; j++) {
-        everyRow[i].children[j].textContent = inputTypeSolutionElement.value.charAt(j);
-      }
-      everyRow[i].classList.add('filled');
-      return;
-    }
+const printUserWord = userWord => {
+  for (let i = 0; i < userWord.length; i++) {
+    const letter = userWord[i];
+    lettersContainerElement.children[currentRow].children[i].textContent = letter;
   }
+  currentRow++;
 };
 
-formElement.addEventListener('submit', writeWordInBoxes);
+startGame();
+
+formElement.addEventListener('submit', event => {
+  event.preventDefault();
+  const userWord = event.target.word.value;
+  if (secretWord.length !== userWord.length) {
+    console.log(`La palabra tiene que tener ${secretWord.length} letras.`);
+    return;
+  }
+  printUserWord(userWord);
+  event.target.reset();
+});
+
+const compareWords = (userWord, secretWord) => {
+  // const result = [];
+
+  const userWordSeparated = userWord.split('');
+  const secretWordSeparated = secretWord.split('');
+
+  userWordSeparated.forEach(character => {
+    if (secretWordSeparated.includes(character)) {
+      lettersContainerElement.children[currentRow].children[i].classList.add('correct');
+    } else {
+      lettersContainerElement.children[currentRow].children[i].classList.add('incorrect');
+    }
+  });
+};
+
+compareWords();
+
+//////////////////////////////////////
+
+// const writeWordInBoxes = event => {
+//   event.preventDefault();
+//   const everyRow = document.querySelectorAll('.letters-container__row');
+
+//   for (let i = 0; i < everyRow.length; i++) {
+//     if (!everyRow[i].classList.contains('filled')) {
+//       for (let j = 0; j < inputTypeSolutionElement.value.length; j++) {
+//         everyRow[i].children[j].textContent = inputTypeSolutionElement.value.charAt(j);
+//       }
+//       everyRow[i].classList.add('filled');
+//       return;
+//     }
+//   }
+// };
+
+// formElement.addEventListener('submit', writeWordInBoxes);
 
 //////////////////////////////////////
 

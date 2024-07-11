@@ -9,8 +9,21 @@
   }
 }
 
-.letter {
+.letter-box {
   width: 50px;
   height: 50px;
   border: 1px solid var(--white-color);
+  font-size: 32px;
+}
+
+.correct {
+  background-color: var(--green-color);
+}
+
+.incorrect {
+  background-color: var(--yellow-color);
+}
+
+.incorrect {
+  background-color: var(--grey-color);
 }
