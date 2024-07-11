@@ -26,7 +26,7 @@ const createGameBoard = () => {
 
     for (let j = 0; j < secretWord.length; j++) {
       const newLetterContainer = document.createElement('span');
-      newLetterContainer.classList.add('letter-box');
+      newLetterContainer.classList.add('letter');
       newRow.append(newLetterContainer);
     }
     fragment.append(newRow);
@@ -40,10 +40,37 @@ const startGame = () => {
   createGameBoard();
 };
 
-const printUserWord = userWord => {
-  for (let i = 0; i < userWord.length; i++) {
-    const letter = userWord[i];
-    lettersContainerElement.children[currentRow].children[i].textContent = letter;
+const printLetter = (letter, position, className) => {
+  const letterBox = lettersContainerElement.children[currentRow].children[position];
+  if (!letterBox.classList.contains('correct')) {
+    letterBox.classList.add(className);
+  }
+  letterBox.textContent = letter;
+};
+
+const checkRow = word => {
+  let className;
+  let wordToCheck = secretWord;
+
+  for (let i = 0; i < word.length; i++) {
+    const letter = word[i];
+
+    if (letter === secretWord[i]) {
+      className = 'correct';
+      wordToCheck = wordToCheck.replace(letter, '-');
+      printLetter(letter, i, className);
+    }
+  }
+
+  for (let i = 0; i < word.length; i++) {
+    const letter = word[i];
+    if (wordToCheck.includes(letter)) {
+      className = 'present';
+      wordToCheck = wordToCheck.replace(letter, '-');
+    } else {
+      className = 'incorrect';
+    }
+    printLetter(letter, i, className);
   }
   currentRow++;
 };
@@ -57,26 +84,27 @@ formElement.addEventListener('submit', event => {
     console.log(`La palabra tiene que tener ${secretWord.length} letras.`);
     return;
   }
-  printUserWord(userWord);
+
+  checkRow(userWord);
   event.target.reset();
 });
 
-const compareWords = (userWord, secretWord) => {
-  // const result = [];
+//////////////////////////////////////
 
-  const userWordSeparated = userWord.split('');
-  const secretWordSeparated = secretWord.split('');
+// const compareWords = (userWord, secretWord) => {
+//   const userWordSeparated = userWord.split('');
+//   const secretWordSeparated = secretWord.split('');
 
-  userWordSeparated.forEach(character => {
-    if (secretWordSeparated.includes(character)) {
-      lettersContainerElement.children[currentRow].children[i].classList.add('correct');
-    } else {
-      lettersContainerElement.children[currentRow].children[i].classList.add('incorrect');
-    }
-  });
-};
+//   userWordSeparated.forEach(character => {
+//     if (secretWordSeparated.includes(character)) {
+//       lettersContainerElement.children[currentRow].children[i].classList.add('correct');
+//     } else {
+//       lettersContainerElement.children[currentRow].children[i].classList.add('incorrect');
+//     }
+//   });
+// };
 
-compareWords();
+// compareWords();
 
 //////////////////////////////////////
 
@@ -121,3 +149,18 @@ compareWords();
 // };
 
 // formElement.addEventListener('submit', wordLength);
+
+// BUCLE WHILE
+// MIENTRAS condición -> ejecuta
+
+// 4
+
+// let secretNumber = 0;
+
+// while (secretNumber !== 4) {
+//   const randomNumber = Math.floor(Math.random() * 10);
+//   secretNumber = randomNumber;
+//   console.log(secretNumber);
+// }
+
+// Crea una función que rellene un array con 15 números del 1 al 20 que no se repitan
